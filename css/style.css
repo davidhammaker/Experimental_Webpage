@@ -1,8 +1,9 @@
 #images_column{
     line-height: 40px;
     max-width: 350px;
-    position: relative;
-    left: 10px;
+    position: absolute;
+    left: 20px;
+    top: 150px;
 }
 
 #images_column img{
