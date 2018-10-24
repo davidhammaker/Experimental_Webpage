@@ -12,6 +12,10 @@
     box-shadow: -3px 3px 10px grey;
 }
 
+#about{
+    float: right;
+}
+
 @media screen and (max-width: 600px){
     #primary{
         width: 100%;
