@@ -1,0 +1,11 @@
+#images_column{
+    line-height: 40px;
+    max-width: 350px;
+    position: relative;
+    left: 10px;
+}
+
+#images_column img{
+    max-width: 300px;
+    box-shadow: -3px 3px 10px grey;
+}
