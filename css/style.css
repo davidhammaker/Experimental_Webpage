@@ -13,7 +13,9 @@
 }
 
 #about{
-    float: right;
+    position: absolute;
+    top: 80px;
+    right: 20px;
 }
 
 @media screen and (max-width: 600px){
