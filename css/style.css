@@ -18,6 +18,10 @@
     right: 20px;
 }
 
+#about img{
+    box-shadow: 3px 3px 10px grey;
+}
+
 @media screen and (max-width: 600px){
     #primary{
         margin-right: 20px;
