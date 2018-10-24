@@ -11,3 +11,10 @@
     max-width: 300px;
     box-shadow: -3px 3px 10px grey;
 }
+
+@media screen and (max-width: 600px){
+    #primary{
+        width: 100%;
+        clear: both;
+    }
+}
