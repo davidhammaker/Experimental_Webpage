@@ -25,6 +25,12 @@
     }
 }
 
+@media screen and (max-width: 800px){
+    #about{
+        position: static;
+    }
+}
+
 @media screen and (min-width: 800px){
     #primary{
         margin-right: 240px;
