@@ -1,13 +1,18 @@
 body{
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
+}
+
+body p{
+    font-size: large;
 }
 
 header{
     width: 100%;
     height: 240px;
-    margin: 0 0 20px 0;
-    padding: 30px;
+    margin: 0 0 40px 0;
+    padding: 0;
     color: rgb(230,230,255);
     text-shadow: 0 3px 8px black;
     background-image: url(forest_bw.jpg);
@@ -16,21 +21,21 @@ header{
 }
 
 header h1{
-    margin: 80px 0 30px 0;
+    padding: 80px 0 30px 0;
+    margin: 0;
     text-align: center;
 }
 
 header h5{
     margin: 0;
     text-align: center;
+    font-size: medium;
 }
 
 #images_column{
     line-height: 40px;
     width: 300px;
     float: left;
-    left: 20px;
-    top: 150px;
     margin: 0 20px 0 20px;
 }
 
@@ -39,10 +44,19 @@ header h5{
     box-shadow: -3px 3px 10px grey;
 }
 
+#primary{
+    padding-right: 20px;
+}
+
+#primary p{
+    font-size: larger;
+}
+
 #about{
     position: absolute;
-    top: 320px;
+    top: 280px;
     right: 20px;
+    max-width: 200px;
 }
 
 #about img{
@@ -50,27 +64,55 @@ header h5{
 }
 
 @media screen and (max-width: 600px){
-    #primary{
-        margin-right: 20px;
-        width: 100%;
-        clear: both;
+    header{
+        margin: 0;
     }
+
+    header h5{
+        font-size: large;
+    }
+
+    #primary{
+        width: 80%;
+        margin: auto;
+    }
+
+    #primary p{
+        font-size: x-large;
+    }
+
     #images_column{
         width: 100%;
         margin: auto;
     }
+
     #images_column img{
         display: block;
         margin: 20px auto 20px auto;
+    }
+
+    #about{
+        margin: auto;
+    }
+
+    #about h3{
+        font-size: x-large;
+    }
+
+    #about p{
+        font-size: x-large;
+    }
+}
+
+@media screen and (min-width: 600px, max-width: 800px){
+    #primary{
+        margin-right: 20px;
     }
 }
 
 @media screen and (max-width: 800px){
     #about{
         position: static;
-    }
-    #primary{
-        margin-right: 20px;
     }
 }
 
