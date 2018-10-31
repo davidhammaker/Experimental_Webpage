@@ -26,6 +26,13 @@ def read_file(file_name, file_list):
         print("Could not read file.")
 
 
+# I found the syntax for this online. I think I understand it, but does it count
+# as my own work?
+def read_image(file_name):
+    with open(file_name, 'rb') as file:
+        return file.read()
+
+
 class RequestHandler(BaseHTTPRequestHandler):
     """
     This is the request handler, inheriting from
@@ -73,31 +80,27 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(final_index.encode())
 
         # PARTS THAT DON'T WORK YET
-        # elif req_parse_list[-1] == 'jpg':
-        #     # Send '200 OK' with JPG:
-        #     self.send_response(200)
-        #     self.send_header('Content-type', 'image/jpg')
-        #     self.end_headers()
-        #
-        #     list_index = []
-        #     read_file(req_name, list_index)
-        #     final_index = (''.join(list_index))
-        #
-        #     print(final_index)
-        #
-        #     self.wfile.write(final_index.encode())
-        #
-        # elif req_parse_list[-1] == 'html':
-        #     # Send '200 OK' with HTML:
-        #     self.send_response(200)
-        #     self.send_header('Content-type', 'text/html')
-        #     self.end_headers()
-        #
-        #     list_index = []
-        #     read_file(index_file, list_index)
-        #     final_index = (''.join(list_index))
-        #
-        #     self.wfile.write(final_index.encode())
+        elif req_parse_list[-1] == 'jpg':
+            # Send '200 OK' with JPG:
+            self.send_response(200)
+            self.send_header('Content-type', 'image/jpeg')
+            self.end_headers()
+
+            final_img = read_image(req_name)
+
+            self.wfile.write(final_img)
+
+        elif req_parse_list[-1] == 'html':
+            # Send '200 OK' with HTML:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+
+            list_index = []
+            read_file(req_name, list_index)
+            final_index = (''.join(list_index))
+
+            self.wfile.write(final_index.encode())
 
         #PARTS I'M NOT USING:
         # # Send '303 Redirect':
