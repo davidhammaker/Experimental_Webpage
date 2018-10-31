@@ -13,10 +13,15 @@
             <h1>Posts</h1>
             <h3>See what others have written:</h3>
         </header>
-        <form method="post">
-            
-        </form>
-        <div class="container" id="primary">
+        <div class="postbody">
+            <form action="http://localhost:8000/" method="post">
+                <label>Post something:
+                    <br>
+                    <textarea name="post_input"></textarea>
+                </label>
+                <br>
+                <input type="submit" name="submit_button" value="Post">
+            </form>
         </div>
     </body>
 </html>

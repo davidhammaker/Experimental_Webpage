@@ -69,6 +69,12 @@ header h3{
     box-shadow: 3px 3px 10px grey;
 }
 
+.postbody form{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
 @media screen and (max-width: 600px){
     header{
         margin: 0;
