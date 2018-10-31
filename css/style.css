@@ -38,6 +38,10 @@ header h3{
     font-size: large;
 }
 
+div p{
+    text-align: center;
+}
+
 #images_column{
     line-height: 40px;
     width: 300px;
