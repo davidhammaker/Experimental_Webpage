@@ -32,6 +32,12 @@ header h5{
     font-size: medium;
 }
 
+header h3{
+    margin: 0;
+    text-align: center;
+    font-size: large;
+}
+
 #images_column{
     line-height: 40px;
     width: 300px;
