@@ -113,6 +113,7 @@ header h5{
 @media screen and (max-width: 800px){
     #about{
         position: static;
+        margin: 0 auto 0 auto;
     }
 }
 
