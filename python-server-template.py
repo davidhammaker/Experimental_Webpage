@@ -11,6 +11,19 @@ from http.server import HTTPServer, BaseHTTPRequestHandler, ThreadingHTTPServer
 from socketserver import ThreadingMixIn
 
 
+index_file = "index.html"
+posts_file = "posts.html"
+
+
+def read_file(file_name, file_list):
+    try:
+        file = open(file_name, "r")
+        for item in file.readlines():
+            file_list.append(item)
+    except Exception:
+        print("Could not read file.")
+
+
 class RequestHandler(BaseHTTPRequestHandler):
     """
     This is the request handler, inheriting from
@@ -29,26 +42,32 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(''.encode()) # The '' empty quotes should be replaced
+
+        list_index = []
+        read_file(index_file, list_index)
+        final_index = ('\n'.join(list_index))
+        print(final_index)
+
+        self.wfile.write(final_index.encode()) # The '' empty quotes should be replaced
                                       # with the HTML you want to send.
 
-        # Send '303 Redirect':
-        self.send_response(303)
-        self.send_header('Location', 'uri/path')# 'uri/path' should be replaced
-                                                # with the new URI for redirect.
-        self.end_headers()
-
-        # Send '404 Not Found' with text:
-        self.send_response(404)
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
-        self.end_headers()
-        self.wfile.write('404 - Page Not Found'.encode())
-
-        # Send '400 Bad Request' with text:
-        self.send_response(400)
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
-        self.end_headers()
-        self.wfile.write('400 - Bad Request'.encode())
+        # # Send '303 Redirect':
+        # self.send_response(303)
+        # self.send_header('Location', 'uri/path')# 'uri/path' should be replaced
+        #                                         # with the new URI for redirect.
+        # self.end_headers()
+        #
+        # # Send '404 Not Found' with text:
+        # self.send_response(404)
+        # self.send_header('Content-type', 'text/plain; charset=utf-8')
+        # self.end_headers()
+        # self.wfile.write('404 - Page Not Found'.encode())
+        #
+        # # Send '400 Bad Request' with text:
+        # self.send_response(400)
+        # self.send_header('Content-type', 'text/plain; charset=utf-8')
+        # self.end_headers()
+        # self.wfile.write('400 - Bad Request'.encode())
 
     def do_POST(self):
         """Handle POST requests."""
@@ -79,7 +98,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 7000))
     server_address = ('', port)
     httpd = ThreadingHTTPServer(server_address, RequestHandler)
     httpd.serve_forever()
