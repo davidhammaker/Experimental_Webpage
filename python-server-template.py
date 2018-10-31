@@ -7,8 +7,9 @@ import os
 import requests
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler, ThreadingHTTPServer
-# from urllib.parse import unquote, parse_qs
+from urllib.parse import unquote, parse_qs
 from socketserver import ThreadingMixIn
+from socket import socket
 
 
 index_file = "index.html"
@@ -20,6 +21,7 @@ def read_file(file_name, file_list):
         file = open(file_name, "r")
         for item in file.readlines():
             file_list.append(item)
+            file.close()
     except Exception:
         print("Could not read file.")
 
@@ -38,19 +40,66 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         """Handle GET requests."""
 
-        # Send '200 OK' with HTML:
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
+        # Parse request
+        req_name = unquote(self.path[1:])
+        req_parse_list = req_name.split('.')
+        print(req_name)
+        if not req_name:
+            print("SEND HTML")
 
-        list_index = []
-        read_file(index_file, list_index)
-        final_index = ('\n'.join(list_index))
-        print(final_index)
+        if not req_name:
+            # Send '200 OK' with HTML:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
 
-        self.wfile.write(final_index.encode()) # The '' empty quotes should be replaced
+            list_index = []
+            read_file(index_file, list_index)
+            final_index = (''.join(list_index))
+
+            self.wfile.write(final_index.encode()) # The '' empty quotes should be replaced
                                       # with the HTML you want to send.
 
+        elif req_parse_list[-1] == 'css':
+            # Send '200 OK' with CSS:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/css')
+            self.end_headers()
+
+            list_index = []
+            read_file(req_name, list_index)
+            final_index = (''.join(list_index))
+
+            self.wfile.write(final_index.encode())
+
+        # PARTS THAT DON'T WORK YET
+        # elif req_parse_list[-1] == 'jpg':
+        #     # Send '200 OK' with JPG:
+        #     self.send_response(200)
+        #     self.send_header('Content-type', 'image/jpg')
+        #     self.end_headers()
+        #
+        #     list_index = []
+        #     read_file(req_name, list_index)
+        #     final_index = (''.join(list_index))
+        #
+        #     print(final_index)
+        #
+        #     self.wfile.write(final_index.encode())
+        #
+        # elif req_parse_list[-1] == 'html':
+        #     # Send '200 OK' with HTML:
+        #     self.send_response(200)
+        #     self.send_header('Content-type', 'text/html')
+        #     self.end_headers()
+        #
+        #     list_index = []
+        #     read_file(index_file, list_index)
+        #     final_index = (''.join(list_index))
+        #
+        #     self.wfile.write(final_index.encode())
+
+        #PARTS I'M NOT USING:
         # # Send '303 Redirect':
         # self.send_response(303)
         # self.send_header('Location', 'uri/path')# 'uri/path' should be replaced
@@ -69,6 +118,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         # self.end_headers()
         # self.wfile.write('400 - Bad Request'.encode())
 
+    #NOT YET USING POST
     def do_POST(self):
         """Handle POST requests."""
 
