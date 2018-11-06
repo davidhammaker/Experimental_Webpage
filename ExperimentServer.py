@@ -21,9 +21,10 @@ def read_file(file_name, file_list):
         file = open(file_name, "r")
         for item in file.readlines():
             file_list.append(item)
-            file.close()
     except Exception:
         print("Could not read file.")
+    finally:
+        file.close()
 
 
 # I found the syntax for this online. I think I understand it, but does it count
