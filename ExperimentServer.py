@@ -106,7 +106,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             posts_raw = get_posts()
             print(posts_raw)
             for row in posts_raw:
-                list_index.insert(24, '<p class="posts"><span class="date">{date}</span> - {post}</p>'.format(date=row[0], post=row[1]))
+                list_index.insert(24, '<p class="posts"><span class="date">{date} - </span>{post}</p>'.format(date=row[0], post=row[1]))
 
             final_index = (''.join(list_index))
 

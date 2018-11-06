@@ -38,6 +38,24 @@ header h3{
     font-size: large;
 }
 
+.postbody form{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+/* .postbody{
+    max-width: 50px;
+} */
+.posts{
+    margin: auto;
+    text-align: center;
+    max-width: 500px;
+}
+.date{
+    font-style: italic;
+    color: gray;
+}
+
 #posts-bottom{
     text-align: center;
 }
@@ -71,12 +89,6 @@ header h3{
 
 #about img{
     box-shadow: 3px 3px 10px grey;
-}
-
-.postbody form{
-    display: block;
-    margin: auto;
-    text-align: center;
 }
 
 @media screen and (max-width: 600px){
