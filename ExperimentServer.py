@@ -101,10 +101,10 @@ class RequestHandler(BaseHTTPRequestHandler):
             list_index = []
             read_file(req_name, list_index)
 
-            # We want to insert messages at list_index[24]
-
-            posts_raw = get_posts()
+            # Add posts to the HTML
+            posts_raw = get_posts()  # These are obtained from posts_db
             print(posts_raw)
+            # Figure out where to put the posts in the HTML
             insertion_index = 0
             for row in list_index:
                 if "posts-bottom" in row:
@@ -113,8 +113,8 @@ class RequestHandler(BaseHTTPRequestHandler):
                 list_index.insert(insertion_index, '<p class="posts"><span class="date">' +
                                   '{date} - </span>{post}</p>'.format(date=row[0], post=row[1]))
 
+            # Put the final HTML together and send it
             final_index = (''.join(list_index))
-
             self.wfile.write(final_index.encode())
 
         #PARTS I'M NOT USING:
