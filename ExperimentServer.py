@@ -17,6 +17,7 @@ posts_file = "posts.html"
 
 
 def read_file(file_name, file_list):
+    """Read files for HTTP transfer in response to GET requests"""
     try:
         file = open(file_name, "r")
         for item in file.readlines():
@@ -27,9 +28,8 @@ def read_file(file_name, file_list):
         file.close()
 
 
-# I found the syntax for this online. I think I understand it, but does it count
-# as my own work?
 def read_image(file_name):
+    """Read image files for HTTP transfer in response to GET requests"""
     with open(file_name, 'rb') as file:
         return file.read()
 
