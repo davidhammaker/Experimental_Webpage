@@ -105,8 +105,13 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             posts_raw = get_posts()
             print(posts_raw)
+            insertion_index = 0
+            for row in list_index:
+                if "posts-bottom" in row:
+                    insertion_index = list_index.index(row)
             for row in posts_raw:
-                list_index.insert(24, '<p class="posts"><span class="date">{date} - </span>{post}</p>'.format(date=row[0], post=row[1]))
+                list_index.insert(insertion_index, '<p class="posts"><span class="date">' +
+                                  '{date} - </span>{post}</p>'.format(date=row[0], post=row[1]))
 
             final_index = (''.join(list_index))
 
