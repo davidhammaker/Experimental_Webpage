@@ -6,6 +6,7 @@ efficiently.
 import os
 import requests
 import threading
+from posts_db import get_posts
 from http.server import HTTPServer, BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote, parse_qs
 from socketserver import ThreadingMixIn
@@ -99,6 +100,14 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             list_index = []
             read_file(req_name, list_index)
+
+            # We want to insert messages at list_index[24]
+
+            posts_raw = get_posts()
+            print(posts_raw)
+            for row in posts_raw:
+                list_index.insert(24, '<p class="posts"><span class="date">{date}</span> - {post}</p>'.format(date=row[0], post=row[1]))
+
             final_index = (''.join(list_index))
 
             self.wfile.write(final_index.encode())

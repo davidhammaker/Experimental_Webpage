@@ -12,7 +12,7 @@ def get_posts():
 
     conn = sqlite3.connect(database=db_name)
     c = conn.cursor()
-    c.execute("select ") # Select info for the message board.
+    c.execute("select date, post from posts order by post_id")
     posts = c.fetchall()
     conn.close()
     return posts
