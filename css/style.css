@@ -61,6 +61,8 @@ header h3{
     text-align: center;
     font-size: small;
     font-style: italic;
+    max-width: 500px;
+    margin: auto;
 }
 
 #images_column{
