@@ -6,7 +6,8 @@ efficiently.
 import os
 import requests
 import threading
-from posts_db import get_posts
+from datetime import datetime
+from posts_db import get_posts, new_post
 from http.server import HTTPServer, BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote, parse_qs
 from socketserver import ThreadingMixIn
@@ -46,13 +47,15 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         do_POST(self): Handle POST requests.
     """
+
+
     def do_GET(self):
         """Handle GET requests."""
 
         # Parse request
         req_name = unquote(self.path[1:])
         req_parse_list = req_name.split('.')
-        print(req_name)
+        print('req: ' + req_name)
         if not req_name:
             print("SEND HTML")
 
@@ -111,7 +114,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     insertion_index = list_index.index(row)
             for row in posts_raw:
                 list_index.insert(insertion_index, '<p class="posts"><span class="date">' +
-                                  '{date} - </span>{post}</p>'.format(date=row[0], post=row[1]))
+                                  '{date} - </span>{post}</p><br>'.format(date=row[0], post=row[1]))
 
             # Put the final HTML together and send it
             final_index = (''.join(list_index))
@@ -140,29 +143,91 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         """Handle POST requests."""
 
-        # Send '303 Redirect':
-        self.send_response(303)
-        self.send_header('Location', 'uri/path')# 'uri/path' should be replaced
-                                                # with the new URI for redirect.
-        self.end_headers()
+        length = int(self.headers.get('Content-length', 0))
+        data = self.rfile.read(length).decode()
+        submitted_post = ''
+        try:
+            # Get the post
+            submitted_post = parse_qs(data)['post_input'][0]
 
-        # Send '404 Not Found' with text:
-        self.send_response(404)
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
-        self.end_headers()
-        self.wfile.write('404 - Page Not Found'.encode())
+            # Get the date
+            dt = datetime.now()
 
-        # Send '400 Bad Request' with text:
-        self.send_response(400)
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
-        self.end_headers()
-        self.wfile.write('400 - Bad Request'.encode())
+            if dt.day < 10:
+                day = '0' + str(dt.day)
+            else:
+                day = str(dt.day)
 
-        # Refresh page with '303 Redirect':
-        self.send_response(303)
-        self.send_header('Location', '/')  # '/' redirects to the same page.
-        # with the new URI for redirect.
-        self.end_headers()
+            if dt.month < 10:
+                month = '0' + str(dt.month)
+            else:
+                month = str(dt.month)
+
+            date_str = month + '-' + day + '-' + str(dt.year)
+
+            if dt.hour == 0:
+                hour = '12'
+                am_pm = 'AM'
+            elif dt.hour > 12:
+                hour = str(dt.hour - 12)
+                am_pm = 'PM'
+            else:
+                hour = str(dt.hour)
+                am_pm = 'AM'
+
+            if dt.minute < 10:
+                minute = '0' + str(dt.minute)
+            else:
+                minute = str(dt.minute)
+
+            time_str = hour + ':' + minute + am_pm
+
+            date = date_str + ' ' + time_str
+
+            # Submit new post
+            new_post(submitted_post, date)
+
+            # Set extension for refresh/redirect
+            extension = 'pages/posts.html'
+        except KeyError:
+            print('(Nothing posted)')
+
+        if submitted_post:
+            # Refresh page with '303 Redirect':
+            self.send_response(303)
+            self.send_header('Location', '/' + extension)  # '/' redirects to the same page.
+            # with the new URI for redirect.
+            self.end_headers()
+        else:
+            # Refresh page with '303 Redirect':
+            self.send_response(303)
+            self.send_header('Location', '/')  # '/' redirects to the same page.
+            # with the new URI for redirect.
+            self.end_headers()
+
+        # # Send '303 Redirect':
+        # self.send_response(303)
+        # self.send_header('Location', 'uri/path')  # 'uri/path' should be replaced
+        #                                           # with the new URI for redirect.
+        # self.end_headers()
+        #
+        # # Send '404 Not Found' with text:
+        # self.send_response(404)
+        # self.send_header('Content-type', 'text/plain; charset=utf-8')
+        # self.end_headers()
+        # self.wfile.write('404 - Page Not Found'.encode())
+        #
+        # # Send '400 Bad Request' with text:
+        # self.send_response(400)
+        # self.send_header('Content-type', 'text/plain; charset=utf-8')
+        # self.end_headers()
+        # self.wfile.write('400 - Bad Request'.encode())
+        #
+        # # Refresh page with '303 Redirect':
+        # self.send_response(303)
+        # self.send_header('Location', '/')  # '/' redirects to the same page.
+        # # with the new URI for redirect.
+        # self.end_headers()
 
 
 if __name__ == '__main__':
