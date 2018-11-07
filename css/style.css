@@ -57,7 +57,10 @@ header h3{
 }
 
 #posts-bottom{
+    color: gray;
     text-align: center;
+    font-size: small;
+    font-style: italic;
 }
 
 #images_column{
